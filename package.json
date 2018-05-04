@@ -1,0 +1,19 @@
+{
+    "name": "gg",
+    "version": "0.0.0",
+    "description": "gg",
+    "private": true,
+    "scripts": {
+        "start": "node server"
+    },
+    "repository": "",
+    "author": "coderLMN",
+    "dependencies": {
+        "body-parser": "",
+        "express": "",
+        "google": ""
+    },
+    "engines": {
+        "node": ""
+    }
+}

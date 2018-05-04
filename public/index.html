@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div>
+    <h1 style="color: darkblue;">老码农的搜索小工具</h1>
+    <div>
+        <input type="text" id='key' name='key' required autofocus placeholder="关键字">
+        <button onclick="search()">搜索</button>
+        <hr>
+        <div id="result"></div>
+    </div>
+</div>
+<script>
+    var search = function(){
+        var keywords = document.getElementById('key');
+        var result = document.getElementById('result');
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', '/search',true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send('keywords='+ keywords.value)
+        xhr.onreadystatechange = function () {
+            var tmpOl = document.createElement('ol');            // 插入搜索结果的列表
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                var list = JSON.parse(xhr.response);
+                for (var i in list) {
+                    var tmpLi = document.createElement('li');    // 插入一个搜索结果
+                    tmpOl.appendChild(tmpLi)
+                    var tmpH = document.createElement('h2');     // 链接的标题
+                    tmpLi.appendChild(tmpH)
+                    var tmpA = document.createElement('a');      // 链接
+                    tmpA.href = list[i].link;
+                    tmpA.target = '_blank';
+                    tmpA.innerText = list[i].title;
+                    tmpH.appendChild(tmpA)
+                    var tmpP1 = document.createElement('p');     // 内容简介
+                    tmpP1.innerText = list[i].description;
+                    tmpLi.appendChild(tmpP1)
+                    var tmpP2 = document.createElement('p');     // 链接
+                    tmpP2.innerText = list[i].link;
+                    tmpP2.style.color = 'darkgreen';
+                    tmpLi.appendChild(tmpP2)
+                }
+                result.innerHTML = '';                           // 清除上一次的搜索结果（如果有）
+                result.appendChild(tmpOl);                       // 插入新的搜索结果
+            }
+        }
+    }
+</script>
+</body>
+</html>
